@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Sistema de Envíos</title>
+</head>
+
+<body>
+    <div class="container">
+        <!-- Login -->
+        <div class="login-container" id="loginSection">
+            <div class="login-icon">📦</div>
+            <h2 class="login-title">Sistema de Envíos</h2>
+            <p class="login-subtitle">Gestión integral de paquetes y envíos</p>
+
+            <form id="loginForm">
+                <div class="form-group">
+                    <label>Documento de Identidad</label>
+                    <input type="text" id="username" required placeholder="Ingresa tu documento">
+                </div>
+                <div class="form-group">
+                    <label>Contraseña</label>
+                    <input type="password" id="password" required placeholder="Ingresa tu contraseña">
+                </div>
+                <button type="submit" class="btn">Iniciar Sesión</button>
+            </form>
+            <div class="login-demo-info">
+                <p><strong>Credenciales de prueba</strong></p>
+                <p><strong>Documento:</strong> admin </p>
+                <p><strong>Contraseña:</strong> admin123</p>
+            </div>
+        </div>
+
+        <!-- App Principal -->
+        <div class="app-container" id="appSection">
+            <div class="header">
+                <div>
+                    <h1>📦 Sistema de Envíos</h1>
+                    <span class="welcome-text" id="welcomeText"></span>
+                </div>
+                <button class="logout-btn" onclick="logout()">Cerrar Sesión</button>
+            </div>
+
+            <div class="tabs">
+                <button class="tab active" onclick="showTab('paquetes')">Paquetes</button>
+                <button class="tab" onclick="showTab('envios')">Envíos</button>
+                <button class="tab" onclick="showTab('usuarios')">Usuarios</button>
+            </div>
+
+            <div class="content">
+                <!-- Tab Paquetes -->
+                <div class="tab-content active" id="paquetes">
+                    <h2>Gestión de Paquetes</h2>
+                    <p class="subtitle">Administra la información de los paquetes</p>
+
+                    <div class="form-container">
+                        <h3>Registro de Paquete</h3>
+                        <form id="paqueteForm">
+                            <input type="hidden" id="paqueteId">
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label>Descripción *</label>
+                                    <input type="text" id="paqueteDesc" required placeholder="Ej: Laptop Dell">
+                                </div>
+                                <div class="form-group">
+                                    <label>Peso (kg) *</label>
+                                    <input type="number" id="paquetePeso" step="0.01" required placeholder="Ej: 2.5">
+                                </div>
+                                <div class="form-group">
+                                    <label>Dimensiones (cm) *</label>
+                                    <input type="text" id="paqueteDim" required placeholder="Ej: 30x20x10">
+                                </div>
+                            </div>
+                            <div class="form-actions">
+                                <button type="submit" class="btn" id="btnGuardarPaquete">Guardar Paquete</button>
+                                <button type="button" class="btn btn-secondary"
+                                    onclick="cancelarPaquete()">Cancelar</button>
+                            </div>
+                        </form>
+                    </div>
+
+                    <div class="table-container">
+                        <h3>Paquetes Registrados</h3>
+                        <div class="table-scroll-wrapper">
+                            <table id="tablaPaquetes">
+                                <thead>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Descripción</th>
+                                        <th>Peso</th>
+                                        <th>Dimensiones</th>
+                                        <th>Fecha</th>
+                                        <th>Acciones</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="paquetesBody"></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tab Envíos -->
+                <div class="tab-content" id="envios">
+                    <h2>Gestión de Envíos</h2>
+                    <p class="subtitle">Administra los envíos de paquetes</p>
+
+                    <div class="form-container">
+                        <h3>Registro de Envío</h3>
+                        <form id="envioForm">
+                            <input type="hidden" id="envioId">
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label>Paquete *</label>
+                                    <select id="envioPaquete" required>
+                                        <option value="">Selecciona un paquete</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label>Destinatario *</label>
+                                    <input type="text" id="envioDestinatario" required
+                                        placeholder="Nombre del destinatario">
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label>Dirección *</label>
+                                    <textarea id="envioDireccion" required
+                                        placeholder="Dirección completa de entrega"></textarea>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label>Estado *</label>
+                                    <select id="envioEstado" required>
+                                        <option value="pendiente">Pendiente</option>
+                                        <option value="transito">En Tránsito</option>
+                                        <option value="entregado">Entregado</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-actions">
+                                <button type="submit" class="btn" id="btnGuardarEnvio">Guardar Envío</button>
+                                <button type="button" class="btn btn-secondary"
+                                    onclick="cancelarEnvio()">Cancelar</button>
+                            </div>
+                        </form>
+                    </div>
+
+                    <div class="table-container">
+                        <h3>Envíos Registrados</h3>
+                        <div class="table-scroll-wrapper">
+                            <table id="tablaEnvios">
+                                <thead>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Paquete</th>
+                                        <th>Destinatario</th>
+                                        <th>Dirección</th>
+                                        <th>Estado</th>
+                                        <th>Fecha</th>
+                                        <th>Acciones</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="enviosBody"></tbody>
+                            </table>
+                        </div>
+                        <div class="scroll-indicator">← Desliza para ver más columnas →</div>
+                    </div>
+                </div>
+
+                <!-- Tab Usuarios - REORGANIZADO -->
+                <div class="tab-content" id="usuarios">
+                    <h2>Gestión de Clientes/Destinatarios</h2>
+                    <p class="subtitle">Administra la información de clientes y destinatarios</p>
+
+                    <div class="form-container">
+                        <h3>Registro de Cliente/Destinatario</h3>
+                        <form id="usuarioForm">
+                            <input type="hidden" id="usuarioId">
+
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label>Documento de Identidad *</label>
+                                    <input type="text" id="usuarioDocumento" required placeholder="Ej: 12345678">
+                                </div>
+                                <div class="form-group">
+                                    <label>Nombre Completo *</label>
+                                    <input type="text" id="usuarioNombre" required placeholder="Ej: Juan Pérez">
+                                </div>
+                            </div>
+
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label>Correo Electrónico *</label>
+                                    <input type="email" id="usuarioCorreo" required placeholder="Ej: juan@correo.com">
+                                </div>
+                                <div class="form-group">
+                                    <label>Teléfono</label>
+                                    <input type="tel" id="usuarioTelefono" placeholder="Ej: 555-1234567">
+                                </div>
+                            </div>
+
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label>Dirección *</label>
+                                    <textarea id="usuarioDireccion" required
+                                        placeholder="Dirección completa"></textarea>
+                                </div>
+                            </div>
+
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label>Ciudad *</label>
+                                    <input type="text" id="usuarioCiudad" required placeholder="Ej: Ciudad Central">
+                                </div>
+                                <div class="form-group">
+                                    <label>Departamento *</label>
+                                    <input type="text" id="usuarioDepartamento" required placeholder="Ej: Departamento">
+                                </div>
+                            </div>
+
+                            <div class="form-actions">
+                                <button type="submit" class="btn" id="btnGuardarUsuario">Guardar Cliente</button>
+                                <button type="button" class="btn btn-secondary"
+                                    onclick="cancelarUsuario()">Cancelar</button>
+                            </div>
+                        </form>
+                    </div>
+
+                    <div class="table-container">
+                        <h3>Clientes/Destinatarios Registrados</h3>
+                        <div class="table-scroll-wrapper">
+                            <table id="tablaUsuarios">
+                                <thead>
+                                    <tr>
+                                        <th>Documento</th>
+                                        <th>Nombre</th>
+                                        <th>Correo</th>
+                                        <th>Teléfono</th>
+                                        <th>Dirección</th>
+                                        <th>Ciudad</th>
+                                        <th>Departamento</th>
+                                        <th>Acciones</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="usuariosBody"></tbody>
+                            </table>
+                        </div>
+                        <div class="scroll-indicator">← Desliza para ver más columnas →</div>
+                    </div>
+            </div>
+        </div>
+    </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+
+</html>

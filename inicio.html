@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestión de Envíos - Dashboard</title>
+
+</head>
+<body>
+    <div class="navbar">
+        <div class="logo">📦 ShipTrack Pro</div>
+        <div class="nav-stats">
+            <div class="stat-item">
+                <div class="stat-number" id="totalPaquetes">0</div>
+                <div class="stat-label">Paquetes</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number" id="totalEnvios">0</div>
+                <div class="stat-label">Envíos</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number" id="enTransito">0</div>
+                <div class="stat-label">En Tránsito</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="grid">
+            <!-- CRUD Paquetes -->
+            <div class="section">
+                <div class="section-header">
+                    <div class="icon">📦</div>
+                    <h2>Gestión de Paquetes</h2>
+                </div>
+
+                <div class="alert alert-success" id="alertPaquete"></div>
+
+                <form id="formPaquete">
+                    <input type="hidden" id="paqueteId">
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label>Descripción del Paquete</label>
+                            <input type="text" id="paqueteDesc" required placeholder="Ej: Laptop HP Pavilion">
+                        </div>
+                        <div class="form-group">
+                            <label>Peso (Kilogramos)</label>
+                            <input type="number" id="paquetePeso" step="0.1" required placeholder="2.5">
+                        </div>
+                        <div class="form-group">
+                            <label>Dimensiones (cm)</label>
+                            <input type="text" id="paqueteDim" required placeholder="40x30x15">
+                        </div>
+                        <div class="form-group">
+                            <label>Valor Declarado ($)</label>
+                            <input type="number" id="paqueteValor" step="0.01" required placeholder="500.00">
+                        </div>
+                    </div>
+                    <div class="btn-group">
+                        <button type="submit" class="btn btn-primary" id="btnGuardarPaquete">
+                            ✓ Guardar Paquete
+                        </button>
+                        <button type="button" class="btn btn-secondary" onclick="cancelarPaquete()">
+                            ✕ Cancelar
+                        </button>
+                    </div>
+                </form>
+
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Descripción</th>
+                                <th>Peso</th>
+                                <th>Valor</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tablaPaquetes"></tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- CRUD Envíos -->
+            <div class="section">
+                <div class="section-header">
+                    <div class="icon">🚚</div>
+                    <h2>Gestión de Envíos</h2>
+                </div>
+
+                <div class="alert alert-success" id="alertEnvio"></div>
+
+                <form id="formEnvio">
+                    <input type="hidden" id="envioId">
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label>Seleccionar Paquete</label>
+                            <select id="envioPaquete" required>
+                                <option value="">-- Seleccionar --</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Nombre del Destinatario</label>
+                            <input type="text" id="envioDestinatario" required placeholder="Juan Pérez">
+                        </div>
+                        <div class="form-group">
+                            <label>Teléfono de Contacto</label>
+                            <input type="tel" id="envioTelefono" required placeholder="555-1234">
+                        </div>
+                        <div class="form-group">
+                            <label>Dirección de Entrega</label>
+                            <textarea id="envioDireccion" required placeholder="Calle 123, Ciudad, País"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label>Estado del Envío</label>
+                            <select id="envioEstado" required>
+                                <option value="pendiente">⏳ Pendiente</option>
+                                <option value="transito">🚚 En Tránsito</option>
+                                <option value="entregado">✓ Entregado</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Fecha de Envío</label>
+                            <input type="date" id="envioFecha" required>
+                        </div>
+                    </div>
+                    <div class="btn-group">
+                        <button type="submit" class="btn btn-primary" id="btnGuardarEnvio">
+                            ✓ Guardar Envío
+                        </button>
+                        <button type="button" class="btn btn-secondary" onclick="cancelarEnvio()">
+                            ✕ Cancelar
+                        </button>
+                    </div>
+                </form>
+
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Paquete</th>
+                                <th>Destinatario</th>
+                                <th>Estado</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tablaEnvios"></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
